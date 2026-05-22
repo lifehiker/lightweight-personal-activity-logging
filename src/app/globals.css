@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f6efe2;
+  --panel: #fffdfa;
+  --panel-strong: #fff8ef;
+  --ink: #1a1713;
+  --muted: #665f56;
+  --line: rgba(26, 23, 19, 0.12);
+  --brand: #bf4b2c;
+  --brand-deep: #8b2f15;
+  --brand-soft: #f4d3b6;
+  --accent: #2f645d;
+  --shadow: 0 18px 50px rgba(39, 27, 19, 0.12);
+  --radius: 1.5rem;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --font-sans: "Georgia", "Times New Roman", serif;
+  --font-mono: "SFMono-Regular", "Consolas", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(244, 211, 182, 0.95), transparent 30%),
+    radial-gradient(circle at top right, rgba(47, 100, 93, 0.15), transparent 28%),
+    linear-gradient(180deg, #fbf5ea 0%, #f6efe2 50%, #efe6d5 100%);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(191, 75, 44, 0.18);
+}
+
+.grain {
+  position: relative;
+}
+
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b38a6f' fill-opacity='.08'%3E%3Ccircle cx='4' cy='4' r='2'/%3E%3Ccircle cx='54' cy='104' r='2'/%3E%3Ccircle cx='154' cy='34' r='2'/%3E%3Ccircle cx='214' cy='194' r='2'/%3E%3Ccircle cx='104' cy='174' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.65;
+}
+
+.container-shell {
+  width: min(1120px, calc(100vw - 2rem));
+  margin-inline: auto;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(255, 253, 250, 0.98), rgba(255, 248, 239, 0.95));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.balance {
+  text-wrap: balance;
+}
+
+.pretty {
+  text-wrap: pretty;
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.hero-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 960px) {
+  .hero-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+  }
+}
