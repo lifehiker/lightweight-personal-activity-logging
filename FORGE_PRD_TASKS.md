@@ -1,137 +1,94 @@
-# ReadLog PRD Completion Checklist
+# FORGE PRD Tasks
 
 ## Foundation
-- [x] Next.js App Router project with TypeScript and Tailwind.
-- [x] `next.config.ts` uses `output: "standalone"`.
-- [x] Local-safe environment helpers avoid hard failures when credentials are missing.
-- [x] Prisma client is generated lazily through local singleton helper.
-- [x] Confirm `npm run build` passes after final changes.
-- [x] Confirm dev server starts without crashing.
+- [x] Read `PRD.md` end-to-end.
+- [x] Read `BUILD_INSTRUCTIONS.md` end-to-end.
+- [x] Confirm Next.js standalone output is configured.
+- [x] Confirm no `next/font/google` usage.
+- [x] Confirm network-backed SDKs are lazy-initialized behind missing-env guards.
 
 ## Data Model
-- [x] `User` model supports account profile, subscription status, and Stripe customer ID.
-- [x] Auth.js `Account`, `Session`, and `VerificationToken` models exist.
-- [x] `LoginCode` model supports passwordless email-code sign-in.
-- [x] `LogEntry` model supports title, normalized title, author, date, pages read, rating, note, timestamps, and user ownership.
-- [x] Indexes support user/date history and title grouping.
+- [x] Prisma schema includes `User` with subscription and Stripe customer fields.
+- [x] Prisma schema includes Auth.js `Account`, `Session`, and `VerificationToken` models.
+- [x] Prisma schema includes private `LogEntry` records with title, author, logged date, pages, rating, note, normalized title, and ownership indexes.
+- [x] Prisma schema includes email-code login persistence for passwordless fallback.
+- [x] Prisma client singleton is configured.
 
 ## Auth
-- [x] Email-code passwordless sign-in flow.
-- [x] Optional Google OAuth provider guarded by missing-env checks.
-- [x] Private authenticated app layout redirects unauthenticated users to `/signin`.
-- [x] Session callback includes user ID and subscription status.
-- [x] Basic private profile editing.
-- [x] Auth.js trusts the deployment proxy host to prevent `UntrustedHost` failures on Forge/Coolify domains.
-- [x] Email-code verification is handled by a server action so sign-in works reliably before/after client hydration.
+- [x] Passwordless email-code sign-in is implemented.
+- [x] Google OAuth is optional and enabled only when credentials are present.
+- [x] Sessions include user id and subscription status.
+- [x] Protected app routes require an authenticated session.
+- [x] Personal profile settings can be updated.
 
 ## Core App Pages
-- [x] `/app` dashboard with quick-add form, recent logs, plan usage, and onboarding empty state.
-- [x] `/app/history` history list sorted by most recent with title/author search.
-- [x] `/app/stats` yearly stats view gated to Premium.
-- [x] `/app/export` CSV export view gated to Premium.
-- [x] `/app/settings` profile and billing management.
-- [x] `/app/books/[slug]` book detail view showing all logs for a title.
+- [x] `/app` dashboard with quick add, recent logs, plan usage, and onboarding empty states.
+- [x] `/app/history` with searchable private reading history.
+- [x] `/app/stats` with premium yearly stats and free-tier upgrade prompt.
+- [x] `/app/export` with premium CSV export prompt/link.
+- [x] `/app/settings` with profile, plan, and billing controls.
+- [x] `/app/books/[slug]` book detail view showing logs for a normalized title.
+
+## API Routes and Server Actions
+- [x] Create log entry server action with validation and free-tier cap enforcement.
+- [x] Update log entry server action with ownership enforcement.
+- [x] Delete log entry server action with ownership enforcement.
+- [x] Profile update server action.
+- [x] CSV export route gated to premium users.
+- [x] Stripe checkout route with missing-env fallback.
+- [x] Stripe billing portal route with missing-env fallback.
+- [x] Stripe webhook route that upgrades users and sends confirmation emails.
+- [x] Auth route handler.
 
 ## Core Workflows
-- [x] Add book/reading log entry.
-- [x] Edit log entry.
-- [x] Delete log entry.
-- [x] Search/filter history by title or author.
-- [x] Calculate current streak from days with at least one log.
-- [x] Calculate longest streak.
-- [x] Calculate yearly books and total entries.
-- [x] Enforce free tier 30-entry limit.
-- [x] Show upgrade prompts near usage limits and gated Premium pages.
+- [x] Sign in with email code.
+- [x] Create a private reading log in one mobile-first form.
+- [x] Edit an existing log.
+- [x] Delete an existing log.
+- [x] Search history by title or author.
+- [x] View grouped book detail history.
+- [x] Calculate current and longest streaks.
+- [x] Calculate yearly stats.
+- [x] Enforce 30-entry free cap.
+- [x] Gate stats and export behind premium status.
 
-## API / Server Actions
-- [x] Server action: request login code.
-- [x] Server action: create log entry.
-- [x] Server action: update log entry.
-- [x] Server action: delete log entry.
-- [x] Server action: update profile.
-- [x] API route: CSV export.
-- [x] API route: Stripe checkout.
-- [x] API route: Stripe billing portal.
-- [x] API route: Stripe webhook.
+## Integrations and Safe Fallbacks
+- [x] Stripe checkout lazy-initializes and returns a graceful setup response without credentials.
+- [x] Stripe portal lazy-initializes and returns a graceful setup response without credentials.
+- [x] Stripe webhook is present for real subscriptions when credentials are configured.
+- [x] Resend lazy-initializes and logs email fallback output without credentials.
+- [x] Welcome email path is implemented for new passwordless users.
+- [x] Upgrade confirmation email path is implemented after paid webhook events.
+- [x] External credential requirements are documented in `HUMAN_INPUT_NEEDED.md`.
 
-## Billing, Email, Analytics, Storage
-- [x] Stripe SDK is lazy-loaded only inside request paths.
-- [x] Stripe checkout gracefully redirects when credentials are unavailable.
-- [x] Stripe portal gracefully redirects when credentials/customer are unavailable.
-- [x] Stripe webhook upgrades users, handles subscription update/deletion lifecycle, and sends confirmation email when configured.
-- [x] Resend SDK is lazy-loaded only inside email send path.
-- [x] Email fallback logs development codes and keeps local sign-in usable without Resend.
-- [x] Welcome email path exists.
-- [x] Upgrade confirmation email path exists.
-- [x] SQLite local/runtime fallback is configured for credential-free operation.
-- [x] Plausible analytics script is optional and disabled unless domain env is set.
-
-## Marketing / SEO
+## Marketing and SEO Pages
 - [x] Homepage targets private reading log positioning.
-- [x] `/pricing` explains free and Premium tiers.
-- [x] `/private-reading-log-app` SEO landing page.
-- [x] `/goodreads-alternative` SEO landing page.
-- [x] `/storygraph-alternative` SEO landing page.
-- [x] `/reading-log-app-no-social` SEO landing page.
-- [x] `/app-to-track-books-read` SEO landing page.
-- [x] `/book-tracker-app` SEO landing page.
-- [x] `/reading-log-template` SEO landing page.
-- [x] `/features/history` feature SEO page.
-- [x] `/features/streaks` feature SEO page.
-- [x] `/features/export` feature SEO page.
-- [x] Privacy and terms pages.
-- [x] Sitemap and robots routes.
-- [x] Blog post: best private alternatives to Goodreads.
-- [x] Blog post: how to keep a reading log without spreadsheets.
-- [x] Blog post: simple reading tracker vs Goodreads.
-- [x] FAQ schema on landing/SEO pages.
+- [x] Pricing page describes free and premium tiers.
+- [x] `/private-reading-log-app` exists.
+- [x] `/goodreads-alternative` exists.
+- [x] `/storygraph-alternative` exists.
+- [x] `/reading-log-app-no-social` exists.
+- [x] `/app-to-track-books-read` exists.
+- [x] `/book-tracker-app` exists.
+- [x] `/reading-log-template` exists.
+- [x] Feature SEO pages for history, streaks, and export exist.
+- [x] Three requested blog posts exist.
+- [x] Privacy and terms pages exist.
+- [x] `robots.ts` and `sitemap.ts` exist.
 
-## Docker / Deployment
-- [x] Production Dockerfile exists.
-- [x] Dockerfile builds standalone Next output.
-- [x] Dockerfile copies existing `public/` directory.
-- [x] Dockerfile initializes Prisma schema on container startup for SQLite fallback.
-- [x] Docker runtime sets `AUTH_TRUST_HOST=true` for Auth.js behind the deployment proxy.
-- [x] `.dockerignore` excludes local env files, prior build output, `node_modules`, and the local SQLite dev database from the image context.
-- [x] Attempt `docker build .`; blocked by Docker daemon socket permissions in this environment.
+## Docker and Deployment
+- [x] `next.config.ts` uses `output: "standalone"`.
+- [x] `next.config.ts` allows the local dev smoke-test origin to avoid Next dev overlay noise.
+- [x] Dockerfile builds dependencies, generates Prisma client, runs `next build`, copies standalone output, static assets, Prisma schema, and existing `public/`.
+- [x] Docker runtime initializes SQLite schema with `prisma db push`.
+- [x] `npm run build` passes after current verification.
+- [ ] Docker build passes if Docker is available locally. Blocked in this environment by Docker socket permission.
 
 ## Verification
 - [x] Run `npm run build`.
-- [x] Start dev server.
-- [x] Smoke-test primary public routes.
-- [x] Smoke-test authenticated/local sign-in flow.
-- [x] Smoke-test add/edit/delete/search/navigation/export gates.
-- [x] Visual review pages for professional layout and responsive issues.
-- [x] Create `HUMAN_INPUT_NEEDED.md` for external credentials.
-- [x] Create `FORGE_COMPLETION_AUDIT.md` mapping requirements to implementation files.
-
-## Phase Notes
-
-### Foundation
-- Read `PRD.md` and `BUILD_INSTRUCTIONS.md` end-to-end before implementation review.
-- The installed Next package does not include `node_modules/next/dist/docs/`, so Next behavior was validated with the local installed package, type checking, and `next build`.
-
-### Data / Auth
-- Prisma SQLite fallback is in sync with the schema via `npx prisma db push`.
-- Email-code credentials sign-in was smoke-tested through the NextAuth callback endpoint using a local development login code.
-- Browser smoke testing exposed and verified the fix for a hydration-sensitive sign-in submit path; the code form now posts through a server action and redirects to `/app`.
-
-### Core Workflows
-- Public routes, protected redirects, authenticated navigation, history search, book detail, stats, settings, CSV export, and Stripe fallback routes were smoke-tested on the dev server.
-- Create, update, and delete log workflows were exercised through the rendered Next server-action forms.
-
-### Billing / Integrations
-- Stripe SDK and Resend SDK remain lazy-loaded behind missing-env guards.
-- Stripe webhook now handles checkout completion plus subscription updated/deleted events.
-- Free-tier cap logic was verified against a local 30-entry free user.
-
-### QA
-- `npm run build` passes.
-- `npm run lint` passes.
-- Clean dependency install with `npm ci --ignore-scripts` followed by `npx prisma generate` passes.
-- Dev server started successfully at `http://localhost:3001`.
-- `/api/auth/session` returns `200` when requested with `Host: lightweight-personal-activity-logging.forge.yoursiteguru.com`, confirming the deployment log's Auth.js `UntrustedHost` failure is fixed.
-- Authenticated credentials smoke test creates a session and renders `/app` and `/app/history`.
-- Playwright browser smoke test for email sign-in plus add/edit/delete/search navigation passed.
-- Browser smoke testing covered the rendered marketing, sign-in, dashboard, history, and CRUD surfaces for layout and interaction regressions.
-- `docker build .` was attempted but the environment denied access to `/var/run/docker.sock`.
+- [x] Start dev server and confirm it does not crash.
+- [x] Smoke-test primary public pages.
+- [x] Smoke-test protected app redirects/sign-in.
+- [x] Smoke-test interactive forms and navigation where possible without external credentials.
+- [x] Visually review homepage, sign-in, and mobile authenticated dashboard screenshots.
+- [x] Create `FORGE_COMPLETION_AUDIT.md` mapping PRD requirements to implementation files.

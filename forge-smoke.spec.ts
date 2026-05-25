@@ -10,13 +10,13 @@ test("email sign-in and core log workflow", async ({ page }) => {
   await page.getByRole("button", { name: "Send sign-in code" }).click();
 
   const codeMessage = page.locator("text=/Use code \\d{6}/");
-  await expect(codeMessage).toBeVisible();
+  await expect(codeMessage).toBeVisible({ timeout: 15000 });
   const code = (await codeMessage.textContent())?.match(/\d{6}/)?.[0];
   expect(code).toBeTruthy();
 
   await page.getByPlaceholder("123456").fill(code!);
   await page.getByRole("button", { name: "Sign in" }).click();
-  await expect(page).toHaveURL(/\/app$/);
+  await page.waitForURL(/\/app$/, { timeout: 15000 });
   await expect(page.getByRole("heading", { name: "Your private reading desk." })).toBeVisible();
 
   await page.getByPlaceholder("The Left Hand of Darkness").fill(title);

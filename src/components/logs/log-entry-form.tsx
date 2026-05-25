@@ -45,7 +45,9 @@ export function LogEntryForm() {
       </div>
       <div className="mt-5 flex items-center justify-between gap-3">
         <p className="text-sm text-[var(--muted)]">Designed for phone screens first. One form, no clutter.</p>
-        <Button type="submit">Save log</Button>
+        <Button type="submit" className="shrink-0 whitespace-nowrap">
+          Save log
+        </Button>
       </div>
     </form>
   );
