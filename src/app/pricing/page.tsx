@@ -24,7 +24,7 @@ export default async function PricingPage() {
           <Badge>Simple pricing</Badge>
           <h1 className="mt-4 text-5xl font-semibold tracking-tight">Free to start. Premium when you need more depth.</h1>
           <div className="mt-8 grid gap-4 lg:grid-cols-2">
-            <article className="rounded-[1.5rem] border border-[var(--line)] bg-white/70 p-6">
+            <article className="rounded-lg border border-[var(--line)] bg-white/70 p-6">
               <h2 className="text-2xl font-semibold">{pricingTiers.free.name}</h2>
               <p className="mt-2 text-sm text-[var(--muted)]">Perfect for proving the workflow.</p>
               <ul className="mt-4 space-y-2 text-sm text-[var(--muted)]">
@@ -39,7 +39,7 @@ export default async function PricingPage() {
               </div>
             </article>
 
-            <article className="rounded-[1.5rem] border border-[rgba(191,75,44,0.22)] bg-[linear-gradient(180deg,rgba(255,248,239,1),rgba(244,211,182,0.35))] p-6">
+            <article className="rounded-lg border border-[rgba(47,107,79,0.25)] bg-[linear-gradient(180deg,#ffffff,#eef4ef)] p-6">
               <p className="eyebrow">Best value</p>
               <h2 className="mt-2 text-2xl font-semibold">{pricingTiers.premium.name}</h2>
               <p className="mt-2 text-sm text-[var(--muted)]">

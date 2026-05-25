@@ -19,14 +19,31 @@ const faqs = [
 ];
 
 export function FAQ() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <Section className="py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="panel p-8">
         <p className="eyebrow">FAQ</p>
         <h2 className="mt-2 text-3xl font-semibold tracking-tight">Built for readers who want less noise.</h2>
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           {faqs.map((faq) => (
-            <div key={faq.question} className="rounded-[1.25rem] border border-[var(--line)] bg-white/70 p-5">
+            <div key={faq.question} className="rounded-lg border border-[var(--line)] bg-white/70 p-5">
               <h3 className="text-lg font-semibold">{faq.question}</h3>
               <p className="mt-3 text-sm leading-7 text-[var(--muted)]">{faq.answer}</p>
             </div>

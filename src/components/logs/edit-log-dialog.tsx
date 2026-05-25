@@ -16,10 +16,10 @@ type Entry = {
 export function EditLogDialog({ entry }: { entry: Entry }) {
   return (
     <details className="group">
-      <summary className="cursor-pointer list-none rounded-full border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--muted)] transition hover:bg-white/70">
+      <summary className="cursor-pointer list-none rounded-lg border border-[var(--line)] px-4 py-2 text-sm font-semibold text-[var(--muted)] transition hover:bg-white/70">
         Edit
       </summary>
-      <form action={updateLogEntry} className="mt-4 rounded-[1.25rem] border border-[var(--line)] bg-white/75 p-4">
+      <form action={updateLogEntry} className="mt-4 rounded-lg border border-[var(--line)] bg-white/75 p-4">
         <input type="hidden" name="id" value={entry.id} />
         <div className="grid gap-3 md:grid-cols-2">
           <div className="md:col-span-2">

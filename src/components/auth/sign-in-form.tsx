@@ -50,7 +50,7 @@ export function SignInForm({ googleEnabled }: { googleEnabled: boolean }) {
         {requestState.message ? <p className="text-sm text-[var(--accent)]">{requestState.message}</p> : null}
         {requestState.error ? <p className="text-sm text-[#7f1d1d]">{requestState.error}</p> : null}
         {requestState.devCode ? (
-          <p className="rounded-2xl bg-[var(--brand-soft)] p-3 text-sm text-[var(--brand-deep)]">
+          <p className="rounded-lg bg-[var(--brand-soft)] p-3 text-sm text-[var(--brand-deep)]">
             Email credentials are not configured. Use code <strong>{requestState.devCode}</strong> for local sign-in.
           </p>
         ) : null}

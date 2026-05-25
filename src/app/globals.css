@@ -1,24 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f6efe2;
-  --panel: #fffdfa;
-  --panel-strong: #fff8ef;
-  --ink: #1a1713;
-  --muted: #665f56;
-  --line: rgba(26, 23, 19, 0.12);
-  --brand: #bf4b2c;
-  --brand-deep: #8b2f15;
-  --brand-soft: #f4d3b6;
-  --accent: #2f645d;
-  --shadow: 0 18px 50px rgba(39, 27, 19, 0.12);
-  --radius: 1.5rem;
+  --bg: #f7f8f4;
+  --panel: #ffffff;
+  --panel-strong: #eef4ef;
+  --ink: #17201b;
+  --muted: #5f6a63;
+  --line: rgba(23, 32, 27, 0.13);
+  --brand: #2f6b4f;
+  --brand-deep: #1f4d38;
+  --brand-soft: #dcecdf;
+  --accent: #9a4f2f;
+  --shadow: 0 16px 36px rgba(23, 32, 27, 0.08);
+  --radius: 0.5rem;
 }
 
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--ink);
-  --font-sans: "Georgia", "Times New Roman", serif;
+  --font-sans: Arial, Helvetica, sans-serif;
   --font-mono: "SFMono-Regular", "Consolas", monospace;
 }
 
@@ -27,12 +27,9 @@
 }
 
 body {
-  background:
-    radial-gradient(circle at top left, rgba(244, 211, 182, 0.95), transparent 30%),
-    radial-gradient(circle at top right, rgba(47, 100, 93, 0.15), transparent 28%),
-    linear-gradient(180deg, #fbf5ea 0%, #f6efe2 50%, #efe6d5 100%);
+  background: linear-gradient(180deg, #fbfbf8 0%, var(--bg) 52%, #eef3ee 100%);
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: Arial, Helvetica, sans-serif;
   min-height: 100vh;
 }
 
@@ -73,7 +70,7 @@ textarea {
 }
 
 .panel {
-  background: linear-gradient(180deg, rgba(255, 253, 250, 0.98), rgba(255, 248, 239, 0.95));
+  background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);

@@ -14,7 +14,7 @@ The app runs locally without external credentials using guarded fallbacks. Provi
    Required so the pricing page can create live monthly and annual subscriptions.
 
 4. `STRIPE_WEBHOOK_SECRET`
-   Required for secure Premium plan activation after successful Stripe checkout.
+   Required for secure Premium plan activation after checkout and for subscription update/cancellation events.
 
 5. `RESEND_API_KEY`
    Required to send real sign-in, welcome, and upgrade emails. Without it, the app logs email payloads locally and shows the sign-in code on the sign-in page for development.

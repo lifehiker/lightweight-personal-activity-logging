@@ -38,7 +38,7 @@ export async function Hero() {
           </div>
           <ul className="grid gap-3 pt-4 text-sm text-[var(--muted)] md:grid-cols-3">
             {points.map((point) => (
-              <li key={point} className="rounded-[1.25rem] border border-[var(--line)] bg-white/50 p-4">
+              <li key={point} className="rounded-lg border border-[var(--line)] bg-white/70 p-4">
                 {point}
               </li>
             ))}
@@ -55,21 +55,21 @@ export async function Hero() {
               <Badge>3 day streak</Badge>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-[1.25rem] bg-white/90 p-4">
+              <div className="rounded-lg bg-white/90 p-4">
                 <NotebookPen className="h-5 w-5 text-[var(--brand)]" />
                 <p className="mt-3 text-sm font-semibold">Fast entry</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   Title, author, pages, note, and rating in one mobile-first form.
                 </p>
               </div>
-              <div className="rounded-[1.25rem] bg-white/90 p-4">
+              <div className="rounded-lg bg-white/90 p-4">
                 <ShieldCheck className="h-5 w-5 text-[var(--accent)]" />
                 <p className="mt-3 text-sm font-semibold">Private by default</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
                   No social graph, no discoverability pressure, no public shelves.
                 </p>
               </div>
-              <div className="rounded-[1.25rem] bg-white/90 p-4 md:col-span-2">
+              <div className="rounded-lg bg-white/90 p-4 md:col-span-2">
                 <Sparkles className="h-5 w-5 text-[var(--brand)]" />
                 <p className="mt-3 text-sm font-semibold">Built for intent-driven readers</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">

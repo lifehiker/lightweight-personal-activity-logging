@@ -10,6 +10,7 @@ export function MarketingFooter() {
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
           <Link href="/reading-log-template">Reading log template</Link>
+          <Link href="/blog/best-private-alternatives-to-goodreads">Guides</Link>
         </div>
       </div>
     </footer>

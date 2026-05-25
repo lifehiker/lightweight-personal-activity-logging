@@ -33,7 +33,7 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-[var(--muted)] transition hover:bg-white/70 hover:text-[var(--ink)]"
+              className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-[var(--muted)] transition hover:bg-[var(--panel-strong)] hover:text-[var(--ink)]"
             >
               <Icon className="h-4 w-4" />
               {label}

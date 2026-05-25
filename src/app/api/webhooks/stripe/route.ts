@@ -5,6 +5,10 @@ import { env } from "@/lib/env";
 import { sendUpgradeConfirmationEmail } from "@/lib/email";
 import { getStripe } from "@/lib/stripe";
 
+function isPremiumStripeStatus(status: string | null | undefined) {
+  return status === "active" || status === "trialing";
+}
+
 export async function POST(request: Request) {
   const stripe = await getStripe();
   if (!stripe || !env.stripeWebhookSecret) {
@@ -42,6 +46,26 @@ export async function POST(request: Request) {
       if (user.email) {
         await sendUpgradeConfirmationEmail(user.email);
       }
+    }
+  }
+
+  if (
+    event.type === "customer.subscription.updated" ||
+    event.type === "customer.subscription.deleted"
+  ) {
+    const subscription = event.data.object;
+    const customerId =
+      typeof subscription.customer === "string" ? subscription.customer : null;
+
+    if (customerId) {
+      await prisma.user.updateMany({
+        where: { stripeCustomerId: customerId },
+        data: {
+          subscriptionStatus: isPremiumStripeStatus(subscription.status)
+            ? "premium"
+            : "free",
+        },
+      });
     }
   }
 

@@ -15,6 +15,9 @@ const routes = [
   "/features/history",
   "/features/streaks",
   "/features/export",
+  "/blog/best-private-alternatives-to-goodreads",
+  "/blog/how-to-keep-a-reading-log-without-spreadsheets",
+  "/blog/simple-reading-tracker-vs-goodreads",
   "/privacy",
   "/terms",
 ];
