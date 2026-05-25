@@ -21,6 +21,8 @@
 - [x] Private authenticated app layout redirects unauthenticated users to `/signin`.
 - [x] Session callback includes user ID and subscription status.
 - [x] Basic private profile editing.
+- [x] Auth.js trusts the deployment proxy host to prevent `UntrustedHost` failures on Forge/Coolify domains.
+- [x] Email-code verification is handled by a server action so sign-in works reliably before/after client hydration.
 
 ## Core App Pages
 - [x] `/app` dashboard with quick-add form, recent logs, plan usage, and onboarding empty state.
@@ -89,6 +91,8 @@
 - [x] Dockerfile builds standalone Next output.
 - [x] Dockerfile copies existing `public/` directory.
 - [x] Dockerfile initializes Prisma schema on container startup for SQLite fallback.
+- [x] Docker runtime sets `AUTH_TRUST_HOST=true` for Auth.js behind the deployment proxy.
+- [x] `.dockerignore` excludes local env files, prior build output, `node_modules`, and the local SQLite dev database from the image context.
 - [x] Attempt `docker build .`; blocked by Docker daemon socket permissions in this environment.
 
 ## Verification
@@ -110,6 +114,7 @@
 ### Data / Auth
 - Prisma SQLite fallback is in sync with the schema via `npx prisma db push`.
 - Email-code credentials sign-in was smoke-tested through the NextAuth callback endpoint using a local development login code.
+- Browser smoke testing exposed and verified the fix for a hydration-sensitive sign-in submit path; the code form now posts through a server action and redirects to `/app`.
 
 ### Core Workflows
 - Public routes, protected redirects, authenticated navigation, history search, book detail, stats, settings, CSV export, and Stripe fallback routes were smoke-tested on the dev server.
@@ -122,6 +127,11 @@
 
 ### QA
 - `npm run build` passes.
+- `npm run lint` passes.
+- Clean dependency install with `npm ci --ignore-scripts` followed by `npx prisma generate` passes.
 - Dev server started successfully at `http://localhost:3001`.
-- Playwright screenshots were captured for desktop/mobile marketing and app pages and reviewed for layout issues.
+- `/api/auth/session` returns `200` when requested with `Host: lightweight-personal-activity-logging.forge.yoursiteguru.com`, confirming the deployment log's Auth.js `UntrustedHost` failure is fixed.
+- Authenticated credentials smoke test creates a session and renders `/app` and `/app/history`.
+- Playwright browser smoke test for email sign-in plus add/edit/delete/search navigation passed.
+- Browser smoke testing covered the rendered marketing, sign-in, dashboard, history, and CRUD surfaces for layout and interaction regressions.
 - `docker build .` was attempted but the environment denied access to `/var/run/docker.sock`.

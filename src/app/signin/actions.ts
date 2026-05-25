@@ -1,10 +1,17 @@
 "use server";
 
 import { z } from "zod";
+import { redirect } from "next/navigation";
 import { issueLoginCode } from "@/lib/auth-helpers";
+import { signIn } from "@/lib/auth";
 
 const schema = z.object({
   email: z.string().email(),
+});
+
+const verifySchema = z.object({
+  email: z.string().email(),
+  code: z.string().length(6),
 });
 
 export async function requestLoginCodeAction(
@@ -34,4 +41,31 @@ export async function requestLoginCodeAction(
     devCode: sent ? "" : code,
     email: parsed.data.email,
   };
+}
+
+export async function verifyLoginCodeAction(
+  _previousState: { error: string },
+  formData: FormData,
+) {
+  const parsed = verifySchema.safeParse({
+    email: formData.get("email"),
+    code: formData.get("code"),
+  });
+
+  if (!parsed.success) {
+    return { error: "Enter the email and 6-digit code from your latest sign-in request." };
+  }
+
+  const result = await signIn("credentials", {
+    email: parsed.data.email,
+    code: parsed.data.code,
+    redirect: false,
+    redirectTo: "/app",
+  });
+
+  if (typeof result === "string" && result.includes("error=")) {
+    return { error: "That code did not match the latest sign-in request." };
+  }
+
+  redirect("/app");
 }

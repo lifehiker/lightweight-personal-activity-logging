@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState, useState, useTransition } from "react";
+import { useActionState, useState } from "react";
 import { signIn } from "next-auth/react";
-import { requestLoginCodeAction } from "@/app/signin/actions";
+import { requestLoginCodeAction, verifyLoginCodeAction } from "@/app/signin/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -16,13 +16,14 @@ const initialState = {
 
 export function SignInForm({ googleEnabled }: { googleEnabled: boolean }) {
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
   const [requestState, requestAction, pendingRequest] = useActionState(
     requestLoginCodeAction,
     initialState,
   );
-  const [pendingSignIn, startTransition] = useTransition();
-  const [signInError, setSignInError] = useState("");
+  const [verifyState, verifyAction, pendingSignIn] = useActionState(
+    verifyLoginCodeAction,
+    { error: "" },
+  );
 
   return (
     <div className="panel max-w-xl p-8">
@@ -58,25 +59,9 @@ export function SignInForm({ googleEnabled }: { googleEnabled: boolean }) {
 
       <form
         className="mt-8 space-y-3 border-t border-[var(--line)] pt-6"
-        onSubmit={(event) => {
-          event.preventDefault();
-          setSignInError("");
-          startTransition(async () => {
-            const result = await signIn("credentials", {
-              email,
-              code,
-              redirect: false,
-            });
-
-            if (result?.error) {
-              setSignInError("That code did not match the latest sign-in request.");
-              return;
-            }
-
-            window.location.href = "/app";
-          });
-        }}
+        action={verifyAction}
       >
+        <input type="hidden" name="email" value={requestState.email || email} />
         <label className="block text-sm font-semibold">6-digit code</label>
         <Input
           name="code"
@@ -84,13 +69,11 @@ export function SignInForm({ googleEnabled }: { googleEnabled: boolean }) {
           pattern="[0-9]{6}"
           placeholder="123456"
           required
-          value={code}
-          onChange={(event) => setCode(event.target.value)}
         />
         <Button type="submit" disabled={pendingSignIn}>
           {pendingSignIn ? "Signing in..." : "Sign in"}
         </Button>
-        {signInError ? <p className="text-sm text-[#7f1d1d]">{signInError}</p> : null}
+        {verifyState.error ? <p className="text-sm text-[#7f1d1d]">{verifyState.error}</p> : null}
       </form>
 
       <div className="mt-8 border-t border-[var(--line)] pt-6">
